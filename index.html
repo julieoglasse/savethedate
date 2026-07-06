@@ -13,12 +13,13 @@
   :root{
     --sage:#7d8c69;
     --sage-deep:#66755454;
-    --vanilla:#f7f2e6;
-    --vanilla-2:#efe8d6;
-    --vanilla-3:#e7dfc9;
-    --gold:#c2a267;
-    --gold-deep:#a98a4f;
+    --vanilla:#ddd3c1;
+    --vanilla-2:#d0c5af;
+    --vanilla-3:#c1b59c;
+    --gold:#b06a3f;
+    --gold-deep:#7f4526;
     --ink:#fdfbf5;
+    --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
   }
   *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
   html,body{height:100%;}
@@ -86,8 +87,14 @@
   /* bakside */
   .env-back{
     position:absolute; inset:0;
-    background:linear-gradient(180deg, var(--vanilla-2), var(--vanilla-3));
-    border-radius:12px;
+    background:
+      var(--grain),
+      repeating-linear-gradient(0deg, rgba(110,92,66,.05) 0 1px, transparent 1px 3px),
+      repeating-linear-gradient(90deg, rgba(110,92,66,.05) 0 1px, transparent 1px 3px),
+      linear-gradient(180deg, var(--vanilla), var(--vanilla-3));
+    background-blend-mode:soft-light, normal, normal, normal;
+    background-size:160px 160px, auto, auto, auto;
+    border-radius:10px;
     box-shadow:0 28px 60px rgba(30,38,22,.45), 0 4px 14px rgba(30,38,22,.28);
     z-index:5;
   }
@@ -160,7 +167,13 @@
     position:absolute; inset:0;
     z-index:30;
     border-radius:12px;
-    background:linear-gradient(200deg, var(--vanilla) 0%, var(--vanilla-2) 58%, var(--vanilla-3) 100%);
+    background:
+      var(--grain),
+      repeating-linear-gradient(0deg, rgba(110,92,66,.05) 0 1px, transparent 1px 3px),
+      repeating-linear-gradient(90deg, rgba(110,92,66,.05) 0 1px, transparent 1px 3px),
+      linear-gradient(200deg, var(--vanilla) 0%, var(--vanilla-2) 58%, var(--vanilla-3) 100%);
+    background-blend-mode:soft-light, normal, normal, normal;
+    background-size:160px 160px, auto, auto, auto;
     clip-path:polygon(0 0, 50% 56%, 100% 0, 100% 100%, 0 100%);
     box-shadow:inset 0 -2px 6px rgba(120,105,70,.14);
   }
@@ -181,8 +194,14 @@
     transform:rotateX(0deg);
     transition:transform .95s cubic-bezier(.6,.05,.3,1), z-index 0s linear .5s, opacity .9s ease;
     clip-path:polygon(0 0, 100% 0, 50% 100%);
-    background:linear-gradient(180deg, var(--vanilla) 8%, #f1ead8 70%, #e9e1cc 100%);
-    border-radius:12px 12px 0 0;
+    background:
+      var(--grain),
+      repeating-linear-gradient(0deg, rgba(110,92,66,.05) 0 1px, transparent 1px 3px),
+      repeating-linear-gradient(90deg, rgba(110,92,66,.05) 0 1px, transparent 1px 3px),
+      linear-gradient(180deg, var(--vanilla) 8%, var(--vanilla-2) 70%, var(--vanilla-3) 100%);
+    background-blend-mode:soft-light, normal, normal, normal;
+    background-size:160px 160px, auto, auto, auto;
+    border-radius:10px 10px 0 0;
     box-shadow:0 3px 8px rgba(120,105,70,.10);
   }
   .stage.flap-open .flap{
@@ -208,8 +227,11 @@
     position:absolute; inset:0;
     border-radius:47% 53% 50% 50% / 51% 49% 53% 47%;
     background:
-      radial-gradient(circle at 34% 30%, #ead9b4 0%, #d9c08c 34%, var(--gold) 62%, var(--gold-deep) 100%);
-    box-shadow:inset 0 3px 7px rgba(255,248,225,.55), inset 0 -4px 8px rgba(255, 255, 255, 0.35);
+      radial-gradient(circle at 36% 30%, #cf9366 0%, #b87748 30%, var(--gold) 60%, var(--gold-deep) 100%);
+    box-shadow:
+      inset 0 3px 8px rgba(255,214,170,.45),
+      inset 0 -6px 11px rgba(58,26,10,.55),
+      inset 0 0 0 1px rgba(84,42,20,.35);
   }
   .seal-img{
     position:absolute;
@@ -218,7 +240,8 @@
     border-radius:50%;
     object-fit:cover;
     mix-blend-mode:multiply;
-    opacity:.95;
+    opacity:.62;
+    filter:brightness(.55) contrast(1.1);
   }
   .seal-initials{
     display:none;
@@ -226,8 +249,8 @@
     align-items:center; justify-content:center;
     font-family:'Great Vibes', cursive;
     font-size:2.1rem;
-    color:#7a6335;
-    text-shadow:0 1px 1px rgba(255,244,214,.6);
+    color:#3c1c0c;
+    text-shadow:0 1px 1px rgba(255,214,170,.5);
   }
   .seal.noimg .seal-img{display:none;}
   .seal.noimg .seal-initials{display:flex;}
