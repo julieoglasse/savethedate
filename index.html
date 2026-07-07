@@ -307,6 +307,10 @@
   }
   .rsvp-navn::placeholder{color:rgba(253,251,245,.6);}
   .rsvp-navn:focus{border-color:rgba(253,251,245,.85); background:rgba(253,251,245,.16);}
+  .rsvp-navn.mangler{border-color:#efd3ad; background:rgba(239,211,173,.16); animation:shake .35s ease;}
+  @keyframes shake{0%,100%{transform:translateX(0);}20%{transform:translateX(-5px);}60%{transform:translateX(5px);}}
+  .rsvp-feil{display:none; margin-top:.5em; font-size:.85rem; letter-spacing:.06em; color:#f2ddc2;}
+  .after.svart .rsvp-feil{display:none;}
   .rsvp-btns{display:flex; gap:.55em; justify-content:center; flex-wrap:wrap;}
   .rsvp-btn{
     background:rgba(253,251,245,.10);
@@ -381,12 +385,13 @@
 
     <div class="after" id="after">
       <div class="rsvp-q">Vet du allerede om du kan komme? Gjerne svar her:</div>
-      <input class="rsvp-navn" id="rsvpNavn" type="text" placeholder="Navnet ditt" autocomplete="name">
+      <input class="rsvp-navn" id="rsvpNavn" type="text" placeholder="Navnet ditt (påkrevd)" autocomplete="name" required>
       <div class="rsvp-btns">
         <button class="rsvp-btn" data-svar="Ja, vi kommer!">Ja</button>
         <button class="rsvp-btn" data-svar="Nei, dessverre">Nei</button>
         <button class="rsvp-btn" data-svar="Vet ikke enn&aring;">Vet ikke ennå</button>
       </div>
+      <div class="rsvp-feil" id="rsvpFeil">Skriv inn navnet ditt før du svarer – så vet vi hvem som har meldt seg.</div>
       <div class="rsvp-takk">Tusen takk for svar! Vi gleder oss.</div>
       <button class="replay" id="replay">Se igjen</button>
     </div>
@@ -451,12 +456,21 @@
     var fSvar = document.getElementById('fSvar');
     var fNavn = document.getElementById('fNavn');
     var navn  = document.getElementById('rsvpNavn');
+    var feil  = document.getElementById('rsvpFeil');
     var btns  = document.querySelectorAll('.rsvp-btn');
+    navn.addEventListener('input', function(){ navn.classList.remove('mangler'); feil.style.display='none'; });
     for(var k = 0; k < btns.length; k++){
       (function(btn){
         btn.addEventListener('click', function(){
+          var navnVal = (navn.value || '').trim();
+          if(!navnVal){
+            navn.classList.remove('mangler'); void navn.offsetWidth; navn.classList.add('mangler');
+            feil.style.display = 'block';
+            navn.focus();
+            return;                     // navn er påkrevd (skjemaet krever det)
+          }
           fSvar.value = btn.getAttribute('data-svar');
-          fNavn.value = navn.value || '';
+          fNavn.value = navnVal;
           form.submit();               // sendes stille til Google Skjema
           after.classList.add('svart'); // viser takk-melding
         });
